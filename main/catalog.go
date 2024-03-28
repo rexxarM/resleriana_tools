@@ -27,7 +27,7 @@ type BundleData struct {
 }
 
 func (c *Catalog) FetchCatalog() error {
-	resp, err := fetch("/catalog.json")
+	resp, err := fetch("catalog.json")
 	if err != nil {
 		return err
 	}

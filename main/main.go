@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const BASE_URL = "https://asset.resleriana.jp/asset/{REPLACE THIS WITH ASSET VERSION}/Android/"
+const BASE_URL = "https://asset.resleriana.jp/asset/1697082844_f3OrnfHInH1ixh1s/Android/"
 
 type task struct {
 	reader   io.ReadCloser
@@ -21,6 +21,7 @@ type task struct {
 }
 
 func main() {
+	log.Printf("launching")
 	catalog := Catalog{}
 	err := catalog.FetchCatalog()
 	if err != nil {
@@ -34,14 +35,19 @@ func main() {
 	}
 
 	t := time.Now()
-
+	count := 0
+	total := len(catalog.Files.Bundles)
 	for _, bundle := range catalog.Files.Bundles {
-		resp, err := fetch(bundle.RelativePath)
-		if err != nil {
-			panic(err)
-		}
+		count++
 
 		outPath := "./extracted/" + bundle.RelativePath
+		if _, err := os.Stat(outPath); !os.IsNotExist(err) {
+			// path/to/whatever exists
+			log.Printf("skipping [%d/%d] %s\n", count,total, bundle.RelativePath)
+			continue
+		}else{
+			log.Printf("fetching [%d/%d] %s\n", count,total,bundle.RelativePath)
+		}
 		outDir := filepath.Dir(outPath)
 		if _, err := os.Stat(outDir); os.IsNotExist(err) {
 			err = os.MkdirAll(outDir, 0755)
@@ -49,7 +55,10 @@ func main() {
 				panic(err)
 			}
 		}
-
+		resp, err := fetch(bundle.RelativePath)
+		if err != nil {
+			panic(err)
+		}
 		out, err := os.Create(outPath)
 		if err != nil {
 			panic(err)

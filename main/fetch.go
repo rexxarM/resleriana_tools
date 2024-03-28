@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 	"net/url"
-	"path/filepath"
+	"log"
 )
 
 var client = &http.Client{
@@ -19,7 +19,8 @@ func fetch(path string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	u.Path = filepath.Join(u.Path, path)
+	u.Path = u.Path+path
+	log.Printf("fetching [%s]\n", u.Path)
 
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {

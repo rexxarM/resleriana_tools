@@ -1,6 +1,42 @@
+
 # resleriana_tools
 Tool to play around with Atelier Resleriana ( レスレリアーナのアトリエ ) encrypted AssetBundle files
 
+Fork from https://github.com/hax0r31337/resleriana_tools
+
+## Improvement:
+
+Provide feature: resumes transmission at break-points.
+
+Display progress during downloading.
+
+## Usage:
+
+```
+git clone https://github.com/rexxarM/resleriana_tools
+
+cd resleriana_tools
+
+# change BASE_URL in main/main.go if needed
+
+go run ./main
+```
+
+## Proxy
+
+Using system proxy by default. Confirm you can access https://asset.resleriana.jp/asset/1697082844_f3OrnfHInH1ixh1s/Android/catalog.json normally, or you may need a proxy.
+
+Set proxy:
+```
+In Powershell
+
+$ENV:HTTP_PROXY='http://<proxy_host>:<proxy_port>'
+```
+
+```
+In bash/zsh
+export all_proxy=http://<proxy_host>:<proxy_port>
+```
 ## File Format
 
 ### Header
